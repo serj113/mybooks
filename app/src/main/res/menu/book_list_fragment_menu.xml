@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_list"
-        android:title="List"
-        app:showAsAction="never"/>
+        android:id="@+id/action_about"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="About"
+        app:showAsAction="always"/>
 </menu>

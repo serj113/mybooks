@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.example.mybooks.R
@@ -27,6 +30,7 @@ class BooksListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setHasOptionsMenu(true)
         loadJson()
         moshi = Moshi.Builder().build()
         val type = object : TypeToken<List<Book>>() {}.type
@@ -51,6 +55,22 @@ class BooksListFragment : Fragment() {
         recyclerView.adapter = BookRecyclerViewAdapter(books) { book ->
             goToBookDetail(book)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.book_list_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_about) {
+            goToAbout()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun goToAbout() {
+        goTo(BooksListFragmentDirections.actionBooksListFragmentToAboutFragment())
     }
 
     private fun goToBookDetail(book: Book) {
