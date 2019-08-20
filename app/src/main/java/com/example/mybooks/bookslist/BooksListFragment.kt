@@ -1,36 +1,39 @@
 package com.example.mybooks.bookslist
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mybooks.R
+import com.example.mybooks.extentions.setTitle
+import com.example.mybooks.model.Book
+import com.google.gson.reflect.TypeToken
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import kotlinx.android.synthetic.main.fragment_book_item_list.*
+import java.io.IOException
 
-import com.example.mybooks.bookslist.dummy.DummyContent
-import com.example.mybooks.bookslist.dummy.DummyContent.DummyItem
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [BooksListFragment.OnListFragmentInteractionListener] interface.
- */
 class BooksListFragment : Fragment() {
 
-    // TODO: Customize parameters
-    private var columnCount = 1
+    private var booksJson = ""
+    private lateinit var moshi: Moshi
+    private lateinit var jsonAdapter: JsonAdapter<List<Book>>
+    private var books: List<Book> = listOf()
 
-    private var listener: OnListFragmentInteractionListener? = null
+    // private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+        loadJson()
+        moshi = Moshi.Builder().build()
+        val type = object : TypeToken<List<Book>>() {}.type
+        jsonAdapter = moshi.adapter(type)
+        jsonAdapter.fromJson(booksJson)?.let {
+            books = it
         }
     }
 
@@ -38,63 +41,48 @@ class BooksListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_book_item_list, container, false)
+        setTitle("List of Books")
+        return inflater.inflate(R.layout.fragment_book_item_list, container, false)
+    }
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = BookRecyclerViewAdapter(DummyContent.ITEMS, listener)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = BookRecyclerViewAdapter(books)
+    }
+
+    // override fun onAttach(context: Context) {
+    //     super.onAttach(context)
+    //     if (context is OnListFragmentInteractionListener) {
+    //         listener = context
+    //     } else {
+    //         throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+    //     }
+    // }
+
+    // override fun onDetach() {
+    //     super.onDetach()
+    //     listener = null
+    // }
+
+    // interface OnListFragmentInteractionListener {
+    //     // TODO: Update argument type and name
+    //     fun onListFragmentInteraction(item: DummyItem?)
+    // }
+
+    private fun loadJson() {
+        try {
+            val `is` = context?.assets?.open("books.json")
+            val size = `is`?.available()
+            size?.let {
+                val buffer = ByteArray(size)
+                `is`?.read(buffer)
+                booksJson = String(buffer)
             }
+            `is`?.close()
+        } catch (ex: IOException) {
+            ex.printStackTrace()
         }
-        return view
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
-    }
-
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            BooksListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }
