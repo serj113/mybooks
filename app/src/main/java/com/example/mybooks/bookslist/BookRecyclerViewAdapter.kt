@@ -13,19 +13,9 @@ import com.example.mybooks.databinding.FragmentBookListBinding
 
 
 class BookRecyclerViewAdapter(
-    private val mValues: List<Book>
+    private val mValues: List<Book>,
+    private val onClickItem: ((Book) -> Unit)?
 ) : RecyclerView.Adapter<BookRecyclerViewAdapter.ViewHolder>() {
-
-    // private val mOnClickListener: View.OnClickListener
-
-    // init {
-    //     mOnClickListener = View.OnClickListener { v ->
-    //         val item = v.tag as DummyItem
-    //         // Notify the active callbacks interface (the activity, if the fragment is attached to
-    //         // one) that an item has been selected.
-    //         mListener?.onListFragmentInteraction(item)
-    //     }
-    // }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: FragmentBookListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.fragment_book_list, parent, false)
@@ -40,10 +30,7 @@ class BookRecyclerViewAdapter(
             .into(holder.itemView.book_image)
 
         holder.bind(item)
-        // with(holder.mView) {
-        //     tag = item
-        //     setOnClickListener(mOnClickListener)
-        // }
+        holder.itemView.setOnClickListener { onClickItem?.invoke(item) }
     }
 
     override fun getItemCount(): Int = mValues.size

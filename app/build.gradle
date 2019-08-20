@@ -2,11 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 28
     dataBinding {
         enabled = true
+    }
+    androidExtensions {
+        experimental = true
     }
     defaultConfig {
         applicationId "com.example.mybooks"

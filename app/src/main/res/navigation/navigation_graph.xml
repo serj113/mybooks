@@ -11,17 +11,26 @@
         tools:layout="@layout/fragment_book_item_list">
         <action
             android:id="@+id/action_booksListFragment_to_bookDetailFragment"
-            app:destination="@id/bookDetailFragment" />
+            app:destination="@id/bookDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/booksListFragment" />
         <action
             android:id="@+id/action_booksListFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment" />
+            app:destination="@id/aboutFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/booksListFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.mybooks.about.AboutFragment"
         tools:layout="@layout/about_fragment" />
-
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.example.mybooks.bookdetail.BookDetailFragment"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mybooks.R
+import com.example.mybooks.extentions.goTo
 import com.example.mybooks.extentions.setTitle
 import com.example.mybooks.model.Book
 import com.google.gson.reflect.TypeToken
@@ -22,8 +23,6 @@ class BooksListFragment : Fragment() {
     private lateinit var moshi: Moshi
     private lateinit var jsonAdapter: JsonAdapter<List<Book>>
     private var books: List<Book> = listOf()
-
-    // private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,27 +48,16 @@ class BooksListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = BookRecyclerViewAdapter(books)
+        recyclerView.adapter = BookRecyclerViewAdapter(books) { book ->
+            goToBookDetail(book)
+        }
     }
 
-    // override fun onAttach(context: Context) {
-    //     super.onAttach(context)
-    //     if (context is OnListFragmentInteractionListener) {
-    //         listener = context
-    //     } else {
-    //         throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
-    //     }
-    // }
-
-    // override fun onDetach() {
-    //     super.onDetach()
-    //     listener = null
-    // }
-
-    // interface OnListFragmentInteractionListener {
-    //     // TODO: Update argument type and name
-    //     fun onListFragmentInteraction(item: DummyItem?)
-    // }
+    private fun goToBookDetail(book: Book) {
+        val directions = BooksListFragmentDirections.actionBooksListFragmentToBookDetailFragment()
+        directions.arguments.putParcelable("book", book)
+        goTo(directions)
+    }
 
     private fun loadJson() {
         try {
