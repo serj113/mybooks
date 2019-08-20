@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <TextView
-        android:id="@+id/item_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.mybooks.bookslist.BookListViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        android:layout_margin="@dimen/standard_margin"
+        android:padding="@dimen/standard_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/book_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintLeft_toRightOf="@+id/book_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mutableText="@{viewModel.getBookTitle()}" />
+
+        <TextView
+            android:id="@+id/book_isbn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintLeft_toRightOf="@+id/book_image"
+            app:layout_constraintTop_toBottomOf="@id/book_title"
+            app:mutableText="@{viewModel.getBookIsbn()}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
