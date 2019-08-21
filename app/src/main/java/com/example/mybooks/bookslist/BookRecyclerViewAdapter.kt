@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.mybooks.model.Book
 import kotlinx.android.synthetic.main.fragment_book_list.view.*
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.Glide
 import androidx.databinding.DataBindingUtil
 import com.example.mybooks.R
 import com.example.mybooks.databinding.FragmentBookListBinding
+import com.example.mybooks.viewmodel.BookViewModel
 
 
 class BookRecyclerViewAdapter(
@@ -26,7 +26,6 @@ class BookRecyclerViewAdapter(
         val item = mValues[position]
         Glide.with(holder.itemView.context)
             .load(item.thumbnailUrl)
-            .apply(RequestOptions().override(55, 55))
             .into(holder.itemView.book_image)
 
         holder.bind(item)
@@ -36,7 +35,7 @@ class BookRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(private val binding: FragmentBookListBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = BookListViewModel()
+        private val viewModel = BookViewModel()
 
         fun bind(book: Book) {
             viewModel.bind(book)

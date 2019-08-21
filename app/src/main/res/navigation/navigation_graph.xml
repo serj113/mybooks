@@ -34,5 +34,11 @@
     <fragment
         android:id="@+id/bookDetailFragment"
         android:name="com.example.mybooks.bookdetail.BookDetailFragment"
-        tools:layout="@layout/book_detail_fragment" />
+        tools:layout="@layout/book_detail_fragment" >
+        <argument
+            android:name="book"
+            app:argType="com.example.mybooks.model.Book"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

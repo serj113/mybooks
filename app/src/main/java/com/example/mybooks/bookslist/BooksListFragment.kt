@@ -75,7 +75,7 @@ class BooksListFragment : Fragment() {
 
     private fun goToBookDetail(book: Book) {
         val directions = BooksListFragmentDirections.actionBooksListFragmentToBookDetailFragment()
-        directions.arguments.putParcelable("book", book)
+        directions.book = book
         goTo(directions)
     }
 
