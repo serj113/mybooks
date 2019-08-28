@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 
 import com.example.mybooks.R
 import com.example.mybooks.databinding.BookDetailFragmentBinding
+import com.example.mybooks.extentions.setTitle
 import com.example.mybooks.model.Book
 import com.example.mybooks.viewmodel.BookViewModel
 import kotlinx.android.synthetic.main.book_detail_fragment.*
@@ -24,10 +25,11 @@ class BookDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: BookDetailFragmentBinding = DataBindingUtil.inflate(layoutInflater, R.layout.book_detail_fragment, container, false)
+        setTitle("Book Detail")
+        val binding: BookDetailFragmentBinding = BookDetailFragmentBinding.inflate(layoutInflater)
         viewModel = ViewModelProviders.of(this).get(BookViewModel::class.java)
         if (arguments != null) {
-            book = BookDetailFragmentArgs.fromBundle(arguments!!).book ?: Book("", "", 0, "", "", "")
+            book = BookDetailFragmentArgs.fromBundle(arguments!!).book ?: Book("", "", 0, "", "", "", "", listOf(), listOf())
         }
         viewModel.bind(book)
         binding.viewModel = viewModel

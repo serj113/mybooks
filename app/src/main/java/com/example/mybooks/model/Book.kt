@@ -10,5 +10,8 @@ data class Book(
     var pageCount: Int,
     var thumbnailUrl: String,
     var shortDescription: String,
-    var status: String
+    var longDescription: String,
+    var status: String,
+    var authors: List<String>,
+    var categories: List<String>
 ) : Parcelable

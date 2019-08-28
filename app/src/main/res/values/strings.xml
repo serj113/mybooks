@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">My Books</string>
+    <string name="name">Putra Setiawan Simaremare</string>
+    <string name="email">putra.simaremare@gmail.com</string>
+    <string name="isbn">ISBN</string>
+    <string name="description">Description</string>
+    <string name="authors">Authors</string>
+    <string name="status">Status</string>
+    <string name="page_count">Page Count</string>
+    <string name="categories">Categories</string>
 </resources>
