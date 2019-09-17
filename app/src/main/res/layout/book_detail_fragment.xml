@@ -154,7 +154,7 @@
                 android:layout_marginBottom="@dimen/standard_margin"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/black"
-                app:mutableText="@{viewModel.getBookPageCount()}" />
+                app:mutabtleText="@{viewModel.getBookPageCount()}" />
 
         </LinearLayout>
 
