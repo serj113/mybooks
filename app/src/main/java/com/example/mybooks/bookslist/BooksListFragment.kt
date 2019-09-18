@@ -10,6 +10,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import com.example.mybooks.R
+import com.example.mybooks.adapter.BookRecyclerViewAdapter
+import com.example.mybooks.adapter.LeftBookViewAdapter
+import com.example.mybooks.adapter.RightBookViewAdapter
+import com.example.mybooks.adapter.ViewAdapter
 import com.example.mybooks.extentions.goTo
 import com.example.mybooks.extentions.setTitle
 import com.example.mybooks.model.Book
@@ -52,9 +56,7 @@ class BooksListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = BookRecyclerViewAdapter(books) { book ->
-            goToBookDetail(book)
-        }
+        recyclerView.adapter = BookRecyclerViewAdapter(getBookAdapter(books))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -77,6 +79,10 @@ class BooksListFragment : Fragment() {
         val directions = BooksListFragmentDirections.actionBooksListFragmentToBookDetailFragment()
         directions.book = book
         goTo(directions)
+    }
+
+    private fun getBookAdapter(books: List<Book>): List<ViewAdapter> {
+        return books.mapIndexed { index, book -> if (index % 2 == 0) RightBookViewAdapter(book) else LeftBookViewAdapter(book) }
     }
 
     private fun loadJson() {
